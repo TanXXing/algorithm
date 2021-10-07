@@ -59,13 +59,17 @@
         // 二分查找的递归函数
         const binarySearchRecur = (head, tail, target) => {
             const mid = Math.floor((head + tail) / 2)
+
+            /* 
+            特别注意：这里递归的边界条件中，第一个边界条件，一定要写在第二个的前面
+            */
             if (arr[mid] === target) {
                 return mid
             }
 
             // 这个地方不能掉，因为如果没有这部分的话，那么当输入的要查找的目标数据不在arr中时，会出现递归进入死循环中的情况(递归调用和循环中的结束条件，大概差不多，但是也有不同的地方，比如，这个地方就需要加上这句话)
-            // 例子如下：[2, 5], target: 1 ，left > right
-            // 例子如下： [2,5], target: 6,  left === right
+            // 例子如下：[2, 5], target: 1 ，计算得到head > tail, 在下一次递归时，遇到head >= tail时，就会返回-1这个值
+            // 例子如下： [2,5], target: 6,  left === right，此时，还是会执行一次递归，在递归时先遇到/*if (arr[mid] === target)，此时，如果不相等，然后，它会去执行 if (head >= tail)的语句，由于，当head=tail时，此时的arr[mid] === target是有可能的，因此，递归的边界条件if (head >= tail)要写在if (arr[mid] === target)的后面*/
             if (head >= tail) {
                 return -1
             }
